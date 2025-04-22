@@ -170,8 +170,8 @@ public class AutohausUtils{
                         }
                     }
                     fahrzeug1 = new Wohnmobil(farbe, marke, (int)(Math.random()*1000),
-                        (int)(Math.random()*1000)+1000, (int)(Math.random()*5), ausstattung[0],
-                        ausstattung[1], ausstattung[2], ausstattung[3]);
+                        (int)(Math.random()*1000)+1000, (int)(Math.random()*5), (int)(Math.random()*4)+3, 
+                        ausstattung[0], ausstattung[1], ausstattung[2], ausstattung[3]);
                     typ = "Wohnmobil";
                     break;
                 case 4:

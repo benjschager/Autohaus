@@ -1,12 +1,14 @@
 public class Wohnmobil extends Fahrzeug {
 
     private int betten;
+    private int breite;
     private boolean[] ausstattung = {false, false, false, false};
 
-    public Wohnmobil(String color, String mrk, int kmst, int prs, int pBetten, boolean toilette, 
-    boolean ofen, boolean mikrowelle, boolean kaffeemaschine) {
+    public Wohnmobil(String color, String mrk, int kmst, int prs, int pBetten, int pBreite,
+            boolean toilette, boolean ofen, boolean mikrowelle, boolean kaffeemaschine) {
         super(color, mrk, kmst, prs);
         betten = pBetten;
+        breite = pBreite;
         typ = "Wohnmobil";
 
         /* Ausstattung: [0] : Toilette
@@ -35,6 +37,7 @@ public class Wohnmobil extends Fahrzeug {
         System.out.println("Bei diesem Fahrzeug handelt es sich um ein " + typ + ".");
         super.anzeigen();
         System.out.println("Anzahl an Betten: " + betten);
+        System.out.println("Breite: " + breite + "m.");
         System.out.println("Außerdem ist folgende Ausstattung vorhanden:");
         if(ausstattung[0]) { System.out.println("Eine Toilette"); n++; }
         if(ausstattung[1]) { System.out.println("Ein Ofen"); n++; }
@@ -44,16 +47,17 @@ public class Wohnmobil extends Fahrzeug {
         System.out.println();
     }
 
-    /*
-	public String anzeigen(char a) {
-		super.anzeigen('a');
-	}*/
-
     public int getBetten() {
         return betten; }
 
     public void setBetten(int pBetten) {
         betten = pBetten; }
+
+    public void setBreite(int breite) {
+        breite = this.breite; }
+
+    public int getBreite() {
+        return breite; }
 
     public boolean getToilette() {
         return ausstattung[0]; }

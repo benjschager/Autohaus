@@ -4,21 +4,21 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.border.*;
 
-//import javax.swing.event.ChangeListener;
-//import javax.swing.event.ChangeEvent;
-
-public class GUI extends JFrame implements ActionListener, ChangeListener{
+public class GUI extends JFrame implements ActionListener, ChangeListener {
     private Dimension screenSize;
     private Autohaus autohaus; 
     private JButton[] parkplatzButtons;
 
     private int selected;
     private String createSelected;
+    private boolean popupEnabled;
 
     private JButton bCreate;
     private JLabel lCreate;
     private JSlider sCreate;
     private JLabel dCreate;
+
+    private JCheckBox cToggle;
 
     private JButton remove;
 
@@ -33,7 +33,9 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
     private JLabel lSitzplaetze;
     private JLabel lLadeflaeche;
     private JLabel lBetten;
+    private JLabel lBreite;
     private JLabel lDefault;
+    private JLabel[] lAusstattung;
 
     private JComboBox<String> vehicleDropdown;
     private CardLayout cardLayout;
@@ -47,18 +49,25 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
     private JTextField[] lKWFields;
     private JTextField[] wohnmobilFields;
 
+    private JCheckBox[] wohnmobilBoxs;
+    private JPanel wohnmobilBottomPanel;
+    private JPanel wohnmobilTopPanel;
+    private JPanel wohnmobilBotomWrapper;
+
     public GUI(Autohaus pAh) {
         super("Autohaus");
         autohaus = pAh;
-        screenSize = new Dimension(1000, 800);
+        screenSize = new Dimension(950, 650);
         setSize(screenSize);
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        //isResizable();
 
+        popupEnabled = true;
+        
         // ==========================================================
         // Der Block, der den Parkplatz reprasentiert.
+        {
         parkplatzButtons = new JButton[autohaus.getParkplatzLength()];
         selected = 0;
 
@@ -90,9 +99,10 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
 
         add(scrollPane);
         // ==========================================================
-
+        }
         // ==========================================================
         // Die 'vieleAutos' Funktion
+        {
         bCreate = new JButton("hinzufugen");
         bCreate.setBounds(210, 560, 150, 40);
         bCreate.addActionListener(this);
@@ -109,23 +119,39 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
         add(sCreate);
 
         dCreate = new JLabel(String.valueOf(initial));
-        dCreate.setBounds(25, 575, 50, 20);
+        dCreate.setBounds(30, 575, 50, 20);
         add(dCreate);
         // ==========================================================
-
+        }  
+        // ==========================================================
+        // A switch enabling/disabling popup Windows
+        {
+        cToggle = new JCheckBox("Pop-up Windows", true);
+        cToggle.setBounds(625, 583, 160, 15);
+        cToggle.addActionListener(this);
+        add(cToggle);
+        //JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        //topPanel.add(cToggle);
+        //setLayout(new BorderLayout());
+        //add(topPanel, BorderLayout.NORTH);
+        //setLayout(null);
+        // ==========================================================
+        }
         // ==========================================================
         // Auto entfernen
+        {
         remove = new JButton("entfernen");
         remove.setBounds(380,560, 150, 40);
         remove.addActionListener(this);
         add(remove);
         // ==========================================================
-
+        }
         // ==========================================================
         // Box with information about the selected vehicel
+        {
         infoBox = new JPanel();
         infoBox.setLayout(new BoxLayout(infoBox, BoxLayout.Y_AXIS));
-        infoBox.setBounds(666, 50, 176, 180);
+        infoBox.setBounds(670, 18, 176, 200);
         infoBox.setBorder(new LineBorder(Color.blue, 2));
 
         lTyp = new JLabel();
@@ -138,17 +164,23 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
         lSitzplaetze = new JLabel();
         lLadeflaeche = new JLabel();
         lBetten = new JLabel();
-        lDefault = new JLabel("Nothing to see here");
+        lBreite = new JLabel();
+        lDefault = new JLabel("Hier gibt es nichts zu sehen");
+        lAusstattung = new JLabel[4];
+        for (int i = 0; i < lAusstattung.length; i++) {
+            lAusstattung[i] = new JLabel();
+        }
 
         infoBox.add(lDefault);
         add(infoBox);
         // ==========================================================
-
+        }
         // ==========================================================
         // create new vehicels with custom attributes
+        {
         createPanel = new JPanel();
-        createPanel.setBounds(625, 260, 280, 320);
-        createPanel.setLayout(new BorderLayout());
+        createPanel.setBounds(625, 225, 280, 350);
+        createPanel.setLayout(new BorderLayout(2, 2));
 
         String[] typs = {"Auto", "Bus", "Flugzeug", "LKW", "Wohnmobil"};
         vehicleDropdown = new JComboBox<>(typs);
@@ -159,6 +191,23 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
         cardLayout = new CardLayout();
         cardsPanel = new JPanel(cardLayout);
 
+        wohnmobilBottomPanel = new JPanel();
+        wohnmobilTopPanel = new JPanel();
+        wohnmobilBotomWrapper = new JPanel();
+
+        wohnmobilBottomPanel.setLayout(new GridLayout(2, 2));
+        wohnmobilBottomPanel.setPreferredSize(new Dimension(280, 50));
+        wohnmobilTopPanel.setLayout(new BoxLayout(wohnmobilTopPanel, BoxLayout.Y_AXIS));
+        wohnmobilBotomWrapper.setLayout(new BorderLayout());
+        wohnmobilBotomWrapper.add(wohnmobilBottomPanel, BorderLayout.CENTER);
+        wohnmobilBotomWrapper.setPreferredSize(new Dimension(280, 50));
+
+        wohnmobilBoxs = new JCheckBox[4];
+        wohnmobilBoxs[0] = new JCheckBox("Toilette");
+        wohnmobilBoxs[1] = new JCheckBox("Ofen");
+        wohnmobilBoxs[2] = new JCheckBox("Mikrowelle");
+        wohnmobilBoxs[3] = new JCheckBox("Kaffeemaschine");
+
         autoFields = new JTextField[4];
         fillJTextField(autoFields);
         busFields = new JTextField[5];
@@ -167,15 +216,13 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
         fillJTextField(flugzeugFields);
         lKWFields = new JTextField[5];
         fillJTextField(lKWFields);
-        wohnmobilFields = new JTextField[5];
+        wohnmobilFields = new JTextField[6];
         fillJTextField(wohnmobilFields);
-        System.out.println("Fields initialised");
-        cardsPanel.add(createInputCard(4, "Auto"), "Auto");
-        cardsPanel.add(createInputCard(5, "Bus"), "Bus");
-        cardsPanel.add(createInputCard(6, "Flugzeug"), "Flugzeug");
-        cardsPanel.add(createInputCard(5, "LKW"), "LKW");
-        cardsPanel.add(createInputCard(5, "Wohnmobil"), "Wohnmobil");
-        System.out.println("cardsPanel done");
+        cardsPanel.add(createInputCard(autoFields.length, "Auto"), "Auto");
+        cardsPanel.add(createInputCard(busFields.length, "Bus"), "Bus");
+        cardsPanel.add(createInputCard(flugzeugFields.length, "Flugzeug"), "Flugzeug");
+        cardsPanel.add(createInputCard(lKWFields.length, "LKW"), "LKW");
+        cardsPanel.add(createInputCard(2, "Wohnmobil"), "Wohnmobil");
 
         vehicleDropdown.addActionListener(this);
 
@@ -184,6 +231,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
         createPanel.add(createButton, BorderLayout.SOUTH);
         add(createPanel);
         // ==========================================================
+        }
 
         setVisible(true);
     }
@@ -191,7 +239,10 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
     public GUI() {
         autohaus = new Autohaus(100);
         new GUI(autohaus);
-        // autohaus.vieleAutos(500);
+    }
+    
+    public GUI(int parkplatzgroesse) {
+        new GUI(new Autohaus(parkplatzgroesse));
     }
 
     public void actionPerformed(ActionEvent ae) {
@@ -203,6 +254,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
             }
         }
 
+        popupEnabled = cToggle.isSelected();
         Fahrzeug f = (Fahrzeug) autohaus.parkplatz[selected];
 
         // Wenn auf diesen Knopf gedruckt wird, sollen so viele Autos hinzugefugt
@@ -210,13 +262,18 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
         // wie auf dem Slider eingestellt sind.
         if (ae.getSource() == bCreate) {
             autohaus.vieleAutos(sCreate.getValue());
+            if (popupEnabled) {
+                popupWindow("Success", new Dimension(300, 80), sCreate.getValue() + " Fahrzeuge wurden hinzugefuegt");
+            }
         }
 
         // Wenn auf diesen Knopf gedruckt wird, soll das ausgewahlte Fahrzeug verkauft
         // werden.
         if (ae.getSource() == remove) {
             autohaus.verkaufen(selected);
-            // popupWindow("Success", new Dimension(300,80),"1 Fahrzeug wurde entfernt");
+            if (popupEnabled) {
+                popupWindow("Success", new Dimension(300,80),"1 Fahrzeug wurde entfernt");
+            }
         }
 
         // Wenn dieses Menu aufgerufen wird, muss eventuell die Anzahl an input-Feldern
@@ -235,13 +292,22 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
                 String pMarke = autoFields[1].getText();
                 int pKmStand;
                 int pPreis;
-                if (!checkInt(autoFields[2].getText()) | !checkInt(autoFields[3].getText())) {
-                    popupWindow("Error", new Dimension(300, 80), "Not all inputs are of the correct data typ");
+                boolean empty = false;
+                for (int i = 0; i < autoFields.length; i++) {
+                    if (autoFields[i].getText().replaceAll("\\s+", "") == null) {
+                        empty = true;
+                    }
+                }
+                if (!checkInt(autoFields[2].getText()) | !checkInt(autoFields[3].getText()) | empty) {
+                    popupWindow("Error", new Dimension(300, 80), "Nicht alle Inputs sind vom korrekten Datentyp");
                 } else {
                     pKmStand = Integer.parseInt(autoFields[2].getText());
                     pPreis = Integer.parseInt(autoFields[3].getText());
                     Auto auto1 = new Auto(pFarbe, pMarke, pKmStand, pPreis);
                     autohaus.parken(auto1);
+                    if (popupEnabled) {
+                        popupWindow("Success", new Dimension(300,80),"1 Fahrzeug wurde hinzugefuegt");
+                    }  
                 }
             }
             // this is for Bus
@@ -251,16 +317,25 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
                 int pKmStand;
                 int pPreis;
                 int pSitzplaetze;
-
+                boolean empty = false;
+                for (int i = 0; i < busFields.length; i++) {
+                    if (busFields[i].getText().replaceAll("\\s+", "") == null) {
+                        empty = true;
+                    }
+                }
                 if (!checkInt(busFields[2].getText()) | !checkInt(busFields[3].getText())
-                        | !checkInt(busFields[4].getText())) {
-                    popupWindow("Error", new Dimension(300, 80), "Not all inputs are of the correct data typ");
+                        | !checkInt(busFields[4].getText()) | empty) {
+                    popupWindow("Error", new Dimension(300, 80), "Nicht alle Inputs sind vom korrekten Datentyp");
                 } else {
                     pKmStand = Integer.parseInt(busFields[2].getText());
                     pPreis = Integer.parseInt(busFields[3].getText());
                     pSitzplaetze = Integer.parseInt(busFields[4].getText());
                     Bus bus1 = new Bus(pFarbe, pMarke, pKmStand, pPreis, pSitzplaetze);
                     autohaus.parken(bus1);
+                    if (popupEnabled) {
+                        popupWindow("Success", new Dimension(300,80),"1 Fahrzeug wurde hinzugefuegt");
+                    }  
+
                 }
             }
             // this is for Flugzeug
@@ -271,10 +346,15 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
                 int pPreis;
                 int pFlughoehe;
                 int pTraglast;
-
+                boolean empty = false;
+                for (int i = 0; i < flugzeugFields.length; i++) {
+                    if (flugzeugFields[i].getText().replaceAll("\\s+", "") == null) {
+                        empty = true;
+                    }
+                }
                 if (!checkInt(flugzeugFields[2].getText()) | !checkInt(flugzeugFields[3].getText()) |
-                        !checkInt(flugzeugFields[4].getText()) | !checkInt(flugzeugFields[5].getText())) {
-                    popupWindow("Error", new Dimension(300, 80), "Not all inputs are of the correct data typ");
+                        !checkInt(flugzeugFields[4].getText()) | !checkInt(flugzeugFields[5].getText()) | empty) {
+                    popupWindow("Error", new Dimension(300, 80), "Nicht alle Inputs sind vom korrekten Datentyp");
                 } else {
                     pKmStand = Integer.parseInt(flugzeugFields[2].getText());
                     pPreis = Integer.parseInt(flugzeugFields[3].getText());
@@ -282,6 +362,10 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
                     pTraglast = Integer.parseInt(flugzeugFields[5].getText());
                     Flugzeug flugzeug1 = new Flugzeug(pFarbe, pMarke, pKmStand, pPreis, pFlughoehe, pTraglast);
                     autohaus.parken(flugzeug1);
+                    if (popupEnabled) {
+                        popupWindow("Success", new Dimension(300,80),"1 Fahrzeug wurde hinzugefuegt");
+                    }  
+
                 }
             }
             // this is for LKW
@@ -291,16 +375,25 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
                 int pKmStand;
                 int pPreis;
                 int pLadeflaeche;
-
+                boolean empty = false;
+                for (int i = 0; i < lKWFields.length; i++) {
+                    if (lKWFields[i].getText().replaceAll("\\s+", "") == null) {
+                        empty = true;
+                    }
+                }
                 if (!checkInt(lKWFields[2].getText()) | !checkInt(lKWFields[3].getText())
-                        | !checkInt(lKWFields[4].getText())) {
-                    popupWindow("Error", new Dimension(300, 80), "Not all inputs are of the correct data typ");
+                        | !checkInt(lKWFields[4].getText()) | empty) {
+                    popupWindow("Error", new Dimension(300, 80), "Nicht alle Inputs sind vom korrekten Datentyp");
                 } else {
                     pKmStand = Integer.parseInt(lKWFields[2].getText());
                     pPreis = Integer.parseInt(lKWFields[3].getText());
                     pLadeflaeche = Integer.parseInt(lKWFields[4].getText());
                     LKW lKW1 = new LKW(pFarbe, pMarke, pKmStand, pPreis, pLadeflaeche);
                     autohaus.parken(lKW1);
+                    if (popupEnabled) {
+                        popupWindow("Success", new Dimension(300,80),"1 Fahrzeug wurde hinzugefuegt");
+                    }  
+
                 }
             }
             // this is for Wohnmobil
@@ -310,16 +403,34 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
                 int pKmStand;
                 int pPreis;
                 int pBetten;
+                int pBreite;
+                boolean empty = false;
+                for (int i = 0; i < wohnmobilFields.length; i++) {
+                    if (wohnmobilFields[i].getText().replaceAll("\\s+", "") == null | wohnmobilFields[i].getText() == null) {
+                        empty = true;
+                    }
+                }
+                
+                boolean[] ausstattung = new boolean[wohnmobilBoxs.length];
+                for (int i = 0; i < ausstattung.length; i++) {
+                    ausstattung[i] = wohnmobilBoxs[i].isSelected();
+                }
 
                 if (!checkInt(wohnmobilFields[2].getText()) | !checkInt(wohnmobilFields[3].getText())
-                        | !checkInt(wohnmobilFields[4].getText())) {
-                    popupWindow("Error", new Dimension(300, 80), "Not all inputs are of the correct data typ");
+                        | !checkInt(wohnmobilFields[4].getText()) | !checkInt(wohnmobilFields[5].getText()) | empty) {
+                    popupWindow("Error", new Dimension(300, 80), "Nicht alle Inputs sind vom korrekten Datentyp");
                 } else {
                     pKmStand = Integer.parseInt(wohnmobilFields[2].getText());
                     pPreis = Integer.parseInt(wohnmobilFields[3].getText());
                     pBetten = Integer.parseInt(wohnmobilFields[4].getText());
-                    Wohnmobil wohnmobil1 = new Wohnmobil(pFarbe, pMarke, pKmStand, pPreis, pBetten);
+                    pBreite = Integer.parseInt(wohnmobilFields[5].getText());
+                    Wohnmobil wohnmobil1 = new Wohnmobil(pFarbe, pMarke, pKmStand, pPreis,
+                            pBetten, pBreite, ausstattung[0], ausstattung[1], ausstattung[2], ausstattung[3]);
                     autohaus.parken(wohnmobil1);
+                    if (popupEnabled) {
+                        popupWindow("Success", new Dimension(300,80),"1 Fahrzeug wurde hinzugefuegt");
+                    }  
+
                 }
             }
         }
@@ -333,9 +444,12 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
             }
         }
 
+        // Updating the box with information about the currently selected vehicle
+        {
         if (f instanceof Auto) {
             lTyp.setText("Fahrzeugtyp: Auto");
             infoBox.add(lTyp);
+            defaultAtributes(f);
         } else {
             infoBox.remove(lTyp);
         }
@@ -344,6 +458,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
             LKW g = (LKW) f;
             lTyp.setText("Fahrzeugtyp: LKW");
             infoBox.add(lTyp);
+            defaultAtributes(f);
             lLadeflaeche.setText("Ladefläche: " + g.getLadeflaeche() + "m^2");
             infoBox.add(lLadeflaeche);
         } else {
@@ -354,6 +469,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
             Flugzeug g = (Flugzeug) f;
             lTyp.setText("Fahrzeugtyp: Flugzeug");
             infoBox.add(lTyp);
+            defaultAtributes(f);
             lFlughoehe.setText("Flughöhe: " + g.getFlughoehe());
             infoBox.add(lFlughoehe);
             lTraglast.setText("Traglast: " + g.getTraglast() + "kg");
@@ -367,6 +483,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
             Bus g = (Bus) f;
             lTyp.setText("Fahrzeugtyp: Bus");
             infoBox.add(lTyp);
+            defaultAtributes(f);
             lSitzplaetze.setText("Sitzplätze: " + g.getSitzplaetze());
             infoBox.add(lSitzplaetze);
         } else {
@@ -377,22 +494,29 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
             Wohnmobil g = (Wohnmobil) f;
             lTyp.setText("Fahrzeugtyp: Wohnmobil");
             infoBox.add(lTyp);
+            defaultAtributes(f);
             lBetten.setText("Betten: " + g.getBetten());
             infoBox.add(lBetten);
+            lBreite.setText("Breite: " + g.getBreite() + "m");
+            infoBox.add(lBreite);
+
+            lAusstattung[0].setText("Toilette: " + nicecyfy(g.getToilette()));
+            lAusstattung[1].setText("Mikrowelle: " + nicecyfy(g.getMikrowelle()));
+            lAusstattung[2].setText("Ofen: " + nicecyfy(g.getOfen()));
+            lAusstattung[3].setText("Kaffeemaschine: " + nicecyfy(g.getKaffeemaschine()));
+
+            for (int i = 0; i < lAusstattung.length; i++) {
+                infoBox.add(lAusstattung[i]);
+            }
         } else {
             infoBox.remove(lBetten);
+            infoBox.remove(lBreite);
+            for (int i = 0; i < lAusstattung.length; i++) {
+                infoBox.remove(lAusstattung[i]);
+            }
         }
 
-        if (autohaus.isAuto(selected)) {
-            lPreis.setText("Preis: " + f.getPreis());
-            infoBox.add(lPreis);
-            lFarbe.setText("Farbe: " + f.getFarbe());
-            infoBox.add(lFarbe);
-            lKmStand.setText("KmStand: " + f.getKmStand());
-            infoBox.add(lKmStand);
-            lMarke.setText("Marke: " + f.getMarke());
-            infoBox.add(lMarke);
-        } else {
+        if (!autohaus.isAuto(selected)) {
             infoBox.remove(lTyp);
             infoBox.remove(lPreis);
             infoBox.remove(lFarbe);
@@ -402,8 +526,9 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
 
         infoBox.remove(lDefault);
         if (infoBox.getComponentCount() == 0) {
-            lDefault.setText("Nothing to see here");
+            lDefault.setText("Hier gibt es nichts zu sehen");
             infoBox.add(lDefault);
+        }
         }
 
         sCreate.setMaximum(autohaus.getParkplatzLength() - autohaus.findeLetztes());
@@ -413,6 +538,17 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
 
     public void stateChanged(ChangeEvent e) {
         dCreate.setText(String.valueOf(sCreate.getValue()));
+    }
+
+    private void defaultAtributes(Fahrzeug f) {
+        lPreis.setText("Preis: " + f.getPreis());
+        infoBox.add(lPreis);
+        lFarbe.setText("Farbe: " + f.getFarbe());
+        infoBox.add(lFarbe);
+        lKmStand.setText("KmStand: " + f.getKmStand());
+        infoBox.add(lKmStand);
+        lMarke.setText("Marke: " + f.getMarke());
+        infoBox.add(lMarke);
     }
 
     public Autohaus getAutohaus() {
@@ -443,12 +579,10 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
     }
 
     private JPanel createInputCard(int numFields, String typ) {
-        System.out.println("calling createInputCard");
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(numFields, 1, 5, 5));
 
         if (typ == "Bus") {
-            System.out.println("Bus");
             firstFour(busFields);
             busFields[4].setBorder(BorderFactory.createTitledBorder("Sitzplaetze: "));
             for (int i = 0; i < 5; i++) {
@@ -456,7 +590,6 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
             }
         }
         else if (typ == "Auto") {
-            System.out.println("Auto");
             firstFour(autoFields);
             for (int i = 0; i < 4; i++) {
                 panel.add(autoFields[i]);
@@ -472,9 +605,24 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
         else if (typ == "Wohnmobil") {
             firstFour(wohnmobilFields);
             wohnmobilFields[4].setBorder(BorderFactory.createTitledBorder("Betten: "));
-            for (int i = 0; i < 5; i++) {
-                panel.add(wohnmobilFields[i]);
+            wohnmobilFields[5].setBorder(BorderFactory.createTitledBorder("Breite: "));
+            for (int i = 0; i < wohnmobilFields.length; i++) {
+                wohnmobilTopPanel.add(wohnmobilFields[i]);
             }
+            for (int i = 0; i < wohnmobilBoxs.length; i++) {
+                wohnmobilBottomPanel.add(wohnmobilBoxs[i]);
+            }
+            
+            wohnmobilBottomPanel.setLayout(new GridLayout(2, 2));
+            wohnmobilBottomPanel.setPreferredSize(new Dimension(280, 50));
+            wohnmobilTopPanel.setLayout(new BoxLayout(wohnmobilTopPanel, BoxLayout.Y_AXIS));
+            wohnmobilBotomWrapper.setLayout(new BorderLayout());
+            wohnmobilBotomWrapper.add(wohnmobilBottomPanel, BorderLayout.CENTER);
+            wohnmobilBotomWrapper.setPreferredSize(new Dimension(280, 40));
+
+            panel.setLayout(new BorderLayout());
+            panel.add(wohnmobilTopPanel, BorderLayout.CENTER); 
+            panel.add(wohnmobilBotomWrapper, BorderLayout.SOUTH);
         }
         else if (typ == "Flugzeug") {
             firstFour(flugzeugFields);
@@ -493,7 +641,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
         for (int i = 0; i < 4; i++) {
             switch (i) {
                 case 0:
-                    input[i].setBorder(BorderFactory.createTitledBorder("Farbe:"));
+                    input[i].setBorder(BorderFactory.createTitledBorder("Farbe: "));
                 break;
                 case 1:
                     input[i].setBorder(BorderFactory.createTitledBorder("Marke: "));
@@ -512,9 +660,22 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
         JFrame popup = new JFrame(name);
         popup.setSize(size);    
         JLabel label = new JLabel(displayText);
-        //label.setBounds(size.width/5,size.height/2-20,(int)(size.width*0.6),40);
         popup.setLocationRelativeTo(null);
         popup.add(label);
         popup.setVisible(true);
+    }
+
+    public static boolean isEven(int i) {
+        if (i % 2 == 1) {
+            return false;
+        }
+        return true;
+    }
+
+    public static String nicecyfy(boolean input) {
+        if (input) {
+            return "✔";
+        }
+        return "✘";
     }
 }
