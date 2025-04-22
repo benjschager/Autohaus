@@ -13,19 +13,20 @@ Class documentation
 -source
 21
 -classpath
-/opt/bluej/bluejcore.jar:/opt/bluej/junit-platform-commons-1.5.2.jar:/opt/bluej/junit-vintage-engine-5.5.2.jar:/opt/bluej/junit-jupiter-params-5.5.2.jar:/opt/bluej/junit-platform-suite-api-1.5.2.jar:/opt/bluej/junit-platform-launcher-1.5.2.jar:/opt/bluej/junit-jupiter-api-5.5.2.jar:/opt/bluej/junit-jupiter-engine-5.5.2.jar:/opt/bluej/junit-platform-engine-1.5.2.jar:/opt/bluej/junit-4.12.jar:/opt/bluej/junit-jupiter-5.5.2.jar:/opt/bluej/hamcrest-core-1.3.jar:/opt/bluej/opentest4j-1.2.0.jar:/opt/bluej/lang-stride.jar:/opt/bluej/javafx/javafx.base.jar:/opt/bluej/javafx/javafx.controls.jar:/opt/bluej/javafx/javafx.fxml.jar:/opt/bluej/javafx/javafx.graphics.jar:/opt/bluej/javafx/javafx.media.jar:/opt/bluej/javafx/javafx.properties.jar:/opt/bluej/javafx/javafx.swing.jar:/opt/bluej/javafx/javafx.web.jar:/home/buni/Documents/School/Info/Java/Arrays/Autohaus1.1a
+/opt/bluej/bluejcore.jar:/opt/bluej/junit-platform-commons-1.5.2.jar:/opt/bluej/junit-vintage-engine-5.5.2.jar:/opt/bluej/junit-jupiter-params-5.5.2.jar:/opt/bluej/junit-platform-suite-api-1.5.2.jar:/opt/bluej/junit-platform-launcher-1.5.2.jar:/opt/bluej/junit-jupiter-api-5.5.2.jar:/opt/bluej/junit-jupiter-engine-5.5.2.jar:/opt/bluej/junit-platform-engine-1.5.2.jar:/opt/bluej/junit-4.12.jar:/opt/bluej/junit-jupiter-5.5.2.jar:/opt/bluej/hamcrest-core-1.3.jar:/opt/bluej/opentest4j-1.2.0.jar:/opt/bluej/lang-stride.jar:/opt/bluej/javafx/javafx.base.jar:/opt/bluej/javafx/javafx.controls.jar:/opt/bluej/javafx/javafx.fxml.jar:/opt/bluej/javafx/javafx.graphics.jar:/opt/bluej/javafx/javafx.media.jar:/opt/bluej/javafx/javafx.properties.jar:/opt/bluej/javafx/javafx.swing.jar:/opt/bluej/javafx/javafx.web.jar:/home/buni/Documents/School/Info/Java/Arrays/Autohauser/AutohausGUI1.2
 -d
-/home/buni/Documents/School/Info/Java/Arrays/Autohaus1.1a/doc
+/home/buni/Documents/School/Info/Java/Arrays/Autohauser/AutohausGUI1.2/doc
 -encoding
 UTF-8
 -charset
 UTF-8
-/home/buni/Documents/School/Info/Java/Arrays/Autohaus1.1a/Wohnmobil.java
+/home/buni/Documents/School/Info/Java/Arrays/Autohauser/AutohausGUI1.2/GUI.java
 <---- end of javadoc command ---->
-Loading source file /home/buni/Documents/School/Info/Java/Arrays/Autohaus1.1a/Wohnmobil.java...
+Loading source file /home/buni/Documents/School/Info/Java/Arrays/Autohauser/AutohausGUI1.2/GUI.java...
 Constructing Javadoc information...
-Standard Doclet version 21.0.6+7
-Building tree for all the packages and classes...
-Generating /home/buni/Documents/School/Info/Java/Arrays/Autohaus1.1a/doc/Wohnmobil.html...
-Generating /home/buni/Documents/School/Info/Java/Arrays/Autohaus1.1a/doc/package-summary.html...
-Generating /home/buni/Documents/School/Info/Java/Arrays/Autohaus1.1a/doc/index.html...
+/home/buni/Documents/School/Info/Java/Arrays/Autohauser/AutohausGUI1.2/GUI.java:312: error: cannot find symbol
+    private static JPanel createInputCard(int numFields, Stirng typ) {
+                                                         ^
+  symbol:   class Stirng
+  location: class GUI
+1 error

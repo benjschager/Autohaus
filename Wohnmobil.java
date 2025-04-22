@@ -18,6 +18,17 @@ public class Wohnmobil extends Fahrzeug {
         ausstattung[2] = mikrowelle;
         ausstattung[3] = kaffeemaschine;
     }
+    
+    public Wohnmobil(String color, String mrk, int kmst, int prs, int pBetten) {
+        super(color, mrk, kmst, prs);
+        for (int j = 0; j < ausstattung.length; j++) {    
+            int x = (int)(Math.random()*2);
+            switch(x) {
+                case 0: ausstattung[j] = true; break;
+                case 1: ausstattung[j] = false; break;
+            }
+        }
+    }
 
     public void anzeigen() {
         int n = 0;

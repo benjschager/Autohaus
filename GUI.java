@@ -35,20 +35,23 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
     private JLabel lBetten;
     private JLabel lDefault;
 
-/*    private JPanel createBox;
-    private JComboBox cTypCustom;
-    private JButton bCustom;
-    private JTextField[] tCustom; */
-
     private JComboBox<String> vehicleDropdown;
     private CardLayout cardLayout;
     private JPanel cardsPanel;
     private JPanel createPanel;
+    private JButton createButton;
+
+    private JTextField[] autoFields;
+    private JTextField[] busFields;
+    private JTextField[] flugzeugFields;
+    private JTextField[] lKWFields;
+    private JTextField[] wohnmobilFields;
 
     public GUI(Autohaus pAh) {
         super("Autohaus");
         autohaus = pAh;
-        setSize(1000,800);
+        screenSize = new Dimension(1000, 800);
+        setSize(screenSize);
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -144,25 +147,41 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
         // ==========================================================
         // create new vehicels with custom attributes
         createPanel = new JPanel();
-        createPanel.setBounds(625, 260, 280, 300);
+        createPanel.setBounds(625, 260, 280, 320);
         createPanel.setLayout(new BorderLayout());
 
         String[] typs = {"Auto", "Bus", "Flugzeug", "LKW", "Wohnmobil"};
         vehicleDropdown = new JComboBox<>(typs);
 
+        createButton = new JButton("Hinzufuegen");
+        createButton.addActionListener(this);
+
         cardLayout = new CardLayout();
         cardsPanel = new JPanel(cardLayout);
 
-        cardsPanel.add(createInputCard(4), "Auto");
-        cardsPanel.add(createInputCard(5), "Bus");
-        cardsPanel.add(createInputCard(6), "Flugzeug");
-        cardsPanel.add(createInputCard(5), "LKW");
-        cardsPanel.add(createInputCard(5), "Wohnmobil");
-        
+        autoFields = new JTextField[4];
+        fillJTextField(autoFields);
+        busFields = new JTextField[5];
+        fillJTextField(busFields);
+        flugzeugFields = new JTextField[6];
+        fillJTextField(flugzeugFields);
+        lKWFields = new JTextField[5];
+        fillJTextField(lKWFields);
+        wohnmobilFields = new JTextField[5];
+        fillJTextField(wohnmobilFields);
+        System.out.println("Fields initialised");
+        cardsPanel.add(createInputCard(4, "Auto"), "Auto");
+        cardsPanel.add(createInputCard(5, "Bus"), "Bus");
+        cardsPanel.add(createInputCard(6, "Flugzeug"), "Flugzeug");
+        cardsPanel.add(createInputCard(5, "LKW"), "LKW");
+        cardsPanel.add(createInputCard(5, "Wohnmobil"), "Wohnmobil");
+        System.out.println("cardsPanel done");
+
         vehicleDropdown.addActionListener(this);
 
         createPanel.add(vehicleDropdown, BorderLayout.NORTH);
         createPanel.add(cardsPanel, BorderLayout.CENTER);
+        createPanel.add(createButton, BorderLayout.SOUTH);
         add(createPanel);
         // ==========================================================
 
@@ -172,9 +191,8 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
     public GUI() {
         autohaus = new Autohaus(100);
         new GUI(autohaus);
-        //autohaus.vieleAutos(500);
+        // autohaus.vieleAutos(500);
     }
-
 
     public void actionPerformed(ActionEvent ae) {
         // Wenn einer der Knöpfe, die die Plätze der Array repräsendtieren,
@@ -185,18 +203,20 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
             }
         }
 
-        Fahrzeug f = (Fahrzeug) autohaus.parkplatz[selected];        
+        Fahrzeug f = (Fahrzeug) autohaus.parkplatz[selected];
 
-        // Wenn auf diesen Knopf gedruckt wird, sollen so viele Autos hinzugefugt werden,
+        // Wenn auf diesen Knopf gedruckt wird, sollen so viele Autos hinzugefugt
+        // werden,
         // wie auf dem Slider eingestellt sind.
         if (ae.getSource() == bCreate) {
             autohaus.vieleAutos(sCreate.getValue());
         }
 
-        // Wenn auf diesen Knopf gedruckt wird, soll das ausgewahlte Fahrzeug verkauft werden.
+        // Wenn auf diesen Knopf gedruckt wird, soll das ausgewahlte Fahrzeug verkauft
+        // werden.
         if (ae.getSource() == remove) {
             autohaus.verkaufen(selected);
-            //popupWindow("Success", new Dimension(300,80),"1 Fahrzeug wurde entfernt");
+            // popupWindow("Success", new Dimension(300,80),"1 Fahrzeug wurde entfernt");
         }
 
         // Wenn dieses Menu aufgerufen wird, muss eventuell die Anzahl an input-Feldern
@@ -206,8 +226,106 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
             cardLayout.show(cardsPanel, createSelected);
         }
 
+        // creates new vehicles with the given parameters after checking if they are of
+        // the correct type
+        if (ae.getSource() == createButton) {
+            // this is for Auto
+            if ((String) vehicleDropdown.getSelectedItem() == "Auto") {
+                String pFarbe = autoFields[0].getText();
+                String pMarke = autoFields[1].getText();
+                int pKmStand;
+                int pPreis;
+                if (!checkInt(autoFields[2].getText()) | !checkInt(autoFields[3].getText())) {
+                    popupWindow("Error", new Dimension(300, 80), "Not all inputs are of the correct data typ");
+                } else {
+                    pKmStand = Integer.parseInt(autoFields[2].getText());
+                    pPreis = Integer.parseInt(autoFields[3].getText());
+                    Auto auto1 = new Auto(pFarbe, pMarke, pKmStand, pPreis);
+                    autohaus.parken(auto1);
+                }
+            }
+            // this is for Bus
+            else if ((String) vehicleDropdown.getSelectedItem() == "Bus") {
+                String pFarbe = busFields[0].getText();
+                String pMarke = busFields[1].getText();
+                int pKmStand;
+                int pPreis;
+                int pSitzplaetze;
+
+                if (!checkInt(busFields[2].getText()) | !checkInt(busFields[3].getText())
+                        | !checkInt(busFields[4].getText())) {
+                    popupWindow("Error", new Dimension(300, 80), "Not all inputs are of the correct data typ");
+                } else {
+                    pKmStand = Integer.parseInt(busFields[2].getText());
+                    pPreis = Integer.parseInt(busFields[3].getText());
+                    pSitzplaetze = Integer.parseInt(busFields[4].getText());
+                    Bus bus1 = new Bus(pFarbe, pMarke, pKmStand, pPreis, pSitzplaetze);
+                    autohaus.parken(bus1);
+                }
+            }
+            // this is for Flugzeug
+            else if ((String) vehicleDropdown.getSelectedItem() == "Flugzeug") {
+                String pFarbe = flugzeugFields[0].getText();
+                String pMarke = flugzeugFields[1].getText();
+                int pKmStand;
+                int pPreis;
+                int pFlughoehe;
+                int pTraglast;
+
+                if (!checkInt(flugzeugFields[2].getText()) | !checkInt(flugzeugFields[3].getText()) |
+                        !checkInt(flugzeugFields[4].getText()) | !checkInt(flugzeugFields[5].getText())) {
+                    popupWindow("Error", new Dimension(300, 80), "Not all inputs are of the correct data typ");
+                } else {
+                    pKmStand = Integer.parseInt(flugzeugFields[2].getText());
+                    pPreis = Integer.parseInt(flugzeugFields[3].getText());
+                    pFlughoehe = Integer.parseInt(flugzeugFields[4].getText());
+                    pTraglast = Integer.parseInt(flugzeugFields[5].getText());
+                    Flugzeug flugzeug1 = new Flugzeug(pFarbe, pMarke, pKmStand, pPreis, pFlughoehe, pTraglast);
+                    autohaus.parken(flugzeug1);
+                }
+            }
+            // this is for LKW
+            else if ((String) vehicleDropdown.getSelectedItem() == "LKW") {
+                String pFarbe = lKWFields[0].getText();
+                String pMarke = lKWFields[1].getText();
+                int pKmStand;
+                int pPreis;
+                int pLadeflaeche;
+
+                if (!checkInt(lKWFields[2].getText()) | !checkInt(lKWFields[3].getText())
+                        | !checkInt(lKWFields[4].getText())) {
+                    popupWindow("Error", new Dimension(300, 80), "Not all inputs are of the correct data typ");
+                } else {
+                    pKmStand = Integer.parseInt(lKWFields[2].getText());
+                    pPreis = Integer.parseInt(lKWFields[3].getText());
+                    pLadeflaeche = Integer.parseInt(lKWFields[4].getText());
+                    LKW lKW1 = new LKW(pFarbe, pMarke, pKmStand, pPreis, pLadeflaeche);
+                    autohaus.parken(lKW1);
+                }
+            }
+            // this is for Wohnmobil
+            else if ((String) vehicleDropdown.getSelectedItem() == "Wohnmobil") {
+                String pFarbe = wohnmobilFields[0].getText();
+                String pMarke = wohnmobilFields[1].getText();
+                int pKmStand;
+                int pPreis;
+                int pBetten;
+
+                if (!checkInt(wohnmobilFields[2].getText()) | !checkInt(wohnmobilFields[3].getText())
+                        | !checkInt(wohnmobilFields[4].getText())) {
+                    popupWindow("Error", new Dimension(300, 80), "Not all inputs are of the correct data typ");
+                } else {
+                    pKmStand = Integer.parseInt(wohnmobilFields[2].getText());
+                    pPreis = Integer.parseInt(wohnmobilFields[3].getText());
+                    pBetten = Integer.parseInt(wohnmobilFields[4].getText());
+                    Wohnmobil wohnmobil1 = new Wohnmobil(pFarbe, pMarke, pKmStand, pPreis, pBetten);
+                    autohaus.parken(wohnmobil1);
+                }
+            }
+        }
+
         // updates the colors of all spots to be green when not empty, red otherwise
-        for (int i = 0; i < parkplatzButtons.length; i ++) {
+        for (int i = 0; i < parkplatzButtons.length; i++) {
             if (autohaus.isAuto(i)) {
                 parkplatzButtons[i].setBackground(Color.green);
             } else {
@@ -265,7 +383,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
             infoBox.remove(lBetten);
         }
 
-        if(autohaus.isAuto(selected)) {
+        if (autohaus.isAuto(selected)) {
             lPreis.setText("Preis: " + f.getPreis());
             infoBox.add(lPreis);
             lFarbe.setText("Farbe: " + f.getFarbe());
@@ -283,12 +401,12 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
         }
 
         infoBox.remove(lDefault);
-        if(infoBox.getComponentCount()==0) {
+        if (infoBox.getComponentCount() == 0) {
             lDefault.setText("Nothing to see here");
             infoBox.add(lDefault);
         }
 
-        sCreate.setMaximum(autohaus.getParkplatzLength()-autohaus.findeLetztes());
+        sCreate.setMaximum(autohaus.getParkplatzLength() - autohaus.findeLetztes());
         infoBox.setVisible(false);
         infoBox.setVisible(true);
     }
@@ -302,29 +420,92 @@ public class GUI extends JFrame implements ActionListener, ChangeListener{
     }
 
     private static boolean checkInt(String input) {
-        char[] against = {'0','1','2','3','4','5','6','7','8','9'};
+        char[] against = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
         for (int i = 0; i < input.length(); i++) {
             char a = input.charAt(i);
             int n = 0;
             for (int j = 0; j < against.length; j++) {
-                if (a == against[j]) { n++; }
+                if (a == against[j]) {
+                    n++;
+                }
             }
-            if (n == 0) { return false; }
+            if (n == 0) {
+                return false;
+            }
         }
         return true;
     }
 
-    private static JPanel createInputCard(int numFields) {
+    private static void fillJTextField(JTextField[] input) {
+        for (int i = 0; i < input.length; i++) {
+            input[i] = new JTextField();
+        }
+    }
+
+    private JPanel createInputCard(int numFields, String typ) {
+        System.out.println("calling createInputCard");
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(numFields, 1, 5, 5));
 
-        for (int i = 1; i <= numFields; i++) {
-            JTextField textField = new JTextField();
-            textField.setBorder(BorderFactory.createTitledBorder("Field " + i));
-            panel.add(textField);
+        if (typ == "Bus") {
+            System.out.println("Bus");
+            firstFour(busFields);
+            busFields[4].setBorder(BorderFactory.createTitledBorder("Sitzplaetze: "));
+            for (int i = 0; i < 5; i++) {
+                panel.add(busFields[i]);
+            }
+        }
+        else if (typ == "Auto") {
+            System.out.println("Auto");
+            firstFour(autoFields);
+            for (int i = 0; i < 4; i++) {
+                panel.add(autoFields[i]);
+            }
+        }
+        else if (typ == "LKW") {
+            firstFour(lKWFields);
+            lKWFields[4].setBorder(BorderFactory.createTitledBorder("Ladeflaeche: "));
+            for (int i = 0; i < 5; i++) {
+                panel.add(lKWFields[i]);
+            }
+        }
+        else if (typ == "Wohnmobil") {
+            firstFour(wohnmobilFields);
+            wohnmobilFields[4].setBorder(BorderFactory.createTitledBorder("Betten: "));
+            for (int i = 0; i < 5; i++) {
+                panel.add(wohnmobilFields[i]);
+            }
+        }
+        else if (typ == "Flugzeug") {
+            firstFour(flugzeugFields);
+            flugzeugFields[4].setBorder(BorderFactory.createTitledBorder("Flughoehe: "));
+            flugzeugFields[5].setBorder(BorderFactory.createTitledBorder("Traglast: "));
+            for (int i = 0; i < 6; i++) {
+                panel.add(flugzeugFields[i]);
+            }
         }
         
         return panel;
+    }
+
+    // creates textFields with the first four elements of the 'Fahrzeug' constructor
+    private void firstFour(JTextField[] input) {
+        for (int i = 0; i < 4; i++) {
+            switch (i) {
+                case 0:
+                    input[i].setBorder(BorderFactory.createTitledBorder("Farbe:"));
+                break;
+                case 1:
+                    input[i].setBorder(BorderFactory.createTitledBorder("Marke: "));
+                break;
+                case 2:
+                    input[i].setBorder(BorderFactory.createTitledBorder("KmStand: "));
+                break;
+                case 3:
+                    input[i].setBorder(BorderFactory.createTitledBorder("Preis: "));
+                break;
+            }
+        }
     }
 
     private void popupWindow(String name, Dimension size, String displayText) {

@@ -12,7 +12,7 @@ public class Autohaus extends AutohausUtils {
         parkplatz = new Fahrzeug[parkplatzgroesse];
     }
 
-    private boolean parken(Fahrzeug f) {
+    public boolean parken(Fahrzeug f) {
         for (int i = 0; i < parkplatz.length; i++) {
             if (parkplatz[i] == null) {
                 parkplatz[i] = f;
