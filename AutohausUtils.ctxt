@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=AutohausUtils
+comment0.text=\n\ A\ Class\ designed\ to\ implement\ the\ 'vieleAutos'\ Method\n\ as\ well\ as\ the\ static\ Methods\ used\ consisting\ mainly\n\ of\ the\ sorting\ algorithm\ previously\ owned\ by\ 'Autohaus'\n\ to\ make\ the\ structure\ more\ comprehensible\n
+comment1.params=
+comment1.target=AutohausUtils()
+comment2.params=A\ low\ high\ criteria
+comment2.target=void\ sort(Fahrzeug[],\ int,\ int,\ char)
+comment2.text=\ wenn\ criteria\ \=\=\ 'p',\ dann\ wird\ nach\ Preis\ sortiert\n\ wenn\ criteria\ \=\=\ 'm',\ dann\ wird\ nach\ Modell\ sortiert\n\ wenn\ criteria\ \=\=\ 'b',\ dann\ wird\ erst\ nach\ Modell,\ dann\ nach\ Preis\ sortiert\nwenn\ criteria\ \=\=\ 't',\ dann\ wird\ der\ Typ\ priorisiert
+comment3.params=A\ low\ high
+comment3.target=int\ partitionPreis(Fahrzeug[],\ int,\ int)
+comment4.params=A\ low\ high
+comment4.target=int\ partitionModell(Fahrzeug[],\ int,\ int)
+comment5.params=A\ low\ high
+comment5.target=int\ partitionModellAndPreis(Fahrzeug[],\ int,\ int)
+comment6.params=A\ low\ high
+comment6.target=int\ partitionTypAndMore(Fahrzeug[],\ int,\ int)
+comment7.params=A\ j\ k
+comment7.target=void\ swapFahrzeug(Fahrzeug[],\ int,\ int)
+comment8.params=anzahl
+comment8.target=Fahrzeug[]\ utilsVieleAutos(int)
+comment8.text=\n\ \ Erstellt\ 'anzahl'\ viele\ Fahrzeuge\ einer\ zuf\u00E4lligen\ Art\ mit\ einem\ zuf\u00E4lligem\ \n\ \ Preis\ (zwischen\ 1000\ und\ 1999),\ mit\ einem\ zuf\u00E4ller\ Farbe\n\ \ (aus\ einer\ Liste\ mit\ 10\ verschiedenen\ Farben),\ und\ einem\ \n\ \ zuf\u00E4lligem\ Kilometerstand\ (zwischen\ 0\ und\ 1000).\n
+numComments=9

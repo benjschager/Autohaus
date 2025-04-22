@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.target=Flugzeug
+comment1.params=color\ mrk\ kmst\ prs\ altitude\ trgl
+comment1.target=Flugzeug(java.lang.String,\ java.lang.String,\ int,\ int,\ int,\ int)
+comment2.params=
+comment2.target=void\ anzeigen()
+comment3.params=
+comment3.target=int\ getFlughoehe()
+comment3.text=\r\n\ \ \ \ public\ String\ anzeigen(char\ a)\ {\r\n\ \ \ \ \ \ \ \ return\ ("Bei\ diesem\ Fahrzeug\ handelt\ es\ sich\ um\ ein\ "\ +\ typ\ +\ "."\ +\ \\n\r\n\ \ \ \ \ \ \ \ \ \ \ \ super.anzeigen('a')\ +\ \\n\r\n\ \ \ \ \ \ \ \ \ \ \ \ "Maximale\ Flugh\u00F6he\:\ "\ +\ maxFlughoehe\ +\ \\n\ \ \ \ \r\n\ \ \ \ \ \ \ \ \ \ \ \ "Maximale\ Traglast\:\ "\ +\ traglast);\r\n}
+comment4.params=
+comment4.target=int\ getTraglast()
+numComments=5

@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.params=color\ mrk\ kmst\ prs\ pLadeflaeche
+comment0.target=LKW(java.lang.String,\ java.lang.String,\ int,\ int,\ int)
+comment1.params=
+comment1.target=void\ anzeigen()
+comment2.params=
+comment2.target=int\ getLadeflaeche()
+comment2.text=\r\n\tpublic\ String\ anzeigen(char\ a)\ {\r\n\t\treturn\ ("Bei\ diesem\ Fahrzeug\ handelt\ es\ sich\ um\ ein\ "\ +\ typ\ +\ "."\ +\ \\n\r\n\t\t\tsuper.anzeigen('a')\ +\ \\n\r\n\t\t\t"Ladefl\u00E4che\:\ "\ +\ ladeflaeche\ +\ "m^2");\r\n}
+comment3.params=updatedLadeflaeche
+comment3.target=void\ setLadeflaeche(int)
+numComments=4

@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=GUI
+comment1.params=pAh
+comment1.target=GUI(Autohaus)
+comment2.params=
+comment2.target=GUI()
+comment3.params=ae
+comment3.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment4.params=e
+comment4.target=void\ stateChanged(javax.swing.event.ChangeEvent)
+comment5.params=
+comment5.target=Autohaus\ getAutohaus()
+comment6.params=input
+comment6.target=boolean\ checkInt(java.lang.String)
+comment7.params=numFields
+comment7.target=javax.swing.JPanel\ createInputCard(int)
+comment8.params=name\ size\ displayText
+comment8.target=void\ popupWindow(java.lang.String,\ java.awt.Dimension,\ java.lang.String)
+numComments=9

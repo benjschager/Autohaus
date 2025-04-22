@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.params=color\ mrk\ kmst\ prs\ szp
+comment0.target=Bus(java.lang.String,\ java.lang.String,\ int,\ int,\ int)
+comment1.params=
+comment1.target=void\ anzeigen()
+comment2.params=
+comment2.target=int\ getSitzplaetze()
+comment2.text=\r\n\tpublic\ String\ anzeigen(char\ a)\ {\r\n\t\treturn\ ("Bei\ diesem\ Fahrzeug\ handelt\ es\ sich\ um\ ein\ "\ +\ typ\ +\ "."\ \\n\r\n\t\t\t\t\tsuper.anzeigen('a')\ +\ \\n\r\n\t\t\t\t\t"Anzahl\ Sitzpl\u00E4tze\:\ "\ +\ sitzplaetze);\r\n}
+comment3.params=n
+comment3.target=void\ setSitzplaetze(int)
+numComments=4

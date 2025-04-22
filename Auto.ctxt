@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=Auto
+comment1.params=color\ mrk\ kmst\ prs
+comment1.target=Auto(java.lang.String,\ java.lang.String,\ int,\ int)
+comment2.params=
+comment2.target=void\ anzeigen()
+numComments=3

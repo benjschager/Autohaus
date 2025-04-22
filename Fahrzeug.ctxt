@@ -1,0 +1,25 @@
+#BlueJ class context
+comment0.params=color\ mrk\ kmst\ prs
+comment0.target=Fahrzeug(java.lang.String,\ java.lang.String,\ int,\ int)
+comment1.params=
+comment1.target=void\ anzeigen()
+comment10.params=updatedMarke
+comment10.target=void\ setMarke(java.lang.String)
+comment2.params=
+comment2.target=java.lang.String\ getTyp()
+comment2.text=\r\n\tpublic\ String\ anzeigen(char\ a)\ {\r\n\t\treturn\ ("Preis\:\ "\ +\ preis\ +\ \\n\r\n\t\t\t\t\t\ "Farbe\:\ "\ +\ farbe\ +\ \\n\r\n\t\t\t\t\t\ "kmStand\:\ "\ +\ kmStand\ +\ "\ km"\ +\ \\n\r\n\t\t\t\t\t\ "Marke\:\ "\ +\ marke);\r\n}
+comment3.params=
+comment3.target=int\ getPreis()
+comment4.params=updatedPreis
+comment4.target=void\ setPreis(int)
+comment5.params=
+comment5.target=int\ getKmStand()
+comment6.params=updatedStand
+comment6.target=void\ setKmStand(int)
+comment7.params=
+comment7.target=java.lang.String\ getFarbe()
+comment8.params=updatedFarbe
+comment8.target=void\ setFarbe(java.lang.String)
+comment9.params=
+comment9.target=java.lang.String\ getMarke()
+numComments=11

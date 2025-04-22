@@ -1,0 +1,27 @@
+#BlueJ class context
+comment0.params=color\ mrk\ kmst\ prs\ pBetten\ toilette\ ofen\ mikrowelle\ kaffeemaschine
+comment0.target=Wohnmobil(java.lang.String,\ java.lang.String,\ int,\ int,\ int,\ boolean,\ boolean,\ boolean,\ boolean)
+comment1.params=
+comment1.target=void\ anzeigen()
+comment10.params=
+comment10.target=boolean\ getKaffeemaschine()
+comment11.params=input
+comment11.target=void\ setKaffeemaschine(boolean)
+comment2.params=
+comment2.target=int\ getBetten()
+comment2.text=\r\n\tpublic\ String\ anzeigen(char\ a)\ {\r\n\t\tsuper.anzeigen('a');\r\n}
+comment3.params=pBetten
+comment3.target=void\ setBetten(int)
+comment4.params=
+comment4.target=boolean\ getToilette()
+comment5.params=input
+comment5.target=void\ setToilette(boolean)
+comment6.params=
+comment6.target=boolean\ getOfen()
+comment7.params=input
+comment7.target=void\ setOfen(boolean)
+comment8.params=
+comment8.target=boolean\ getMikrowelle()
+comment9.params=input
+comment9.target=void\ setMikrowelle(boolean)
+numComments=12
