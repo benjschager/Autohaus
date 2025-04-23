@@ -189,4 +189,16 @@ public class AutohausUtils{
         }
         return output;
     }
+
+    public static <T> int last(T[] array) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == null && i > 0) {
+                return i-1;
+            }
+            else if (array[i] == null) {
+                return i;
+            }
+        }
+        return array.length;
+    }
 }

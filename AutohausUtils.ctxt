@@ -19,4 +19,6 @@ comment7.target=void\ swapFahrzeug(Fahrzeug[],\ int,\ int)
 comment8.params=anzahl
 comment8.target=Fahrzeug[]\ utilsVieleAutos(int)
 comment8.text=\n\ \ Erstellt\ 'anzahl'\ viele\ Fahrzeuge\ einer\ zuf\u00E4lligen\ Art\ mit\ einem\ zuf\u00E4lligem\ \n\ \ Preis\ (zwischen\ 1000\ und\ 1999),\ mit\ einem\ zuf\u00E4ller\ Farbe\n\ \ (aus\ einer\ Liste\ mit\ 10\ verschiedenen\ Farben),\ und\ einem\ \n\ \ zuf\u00E4lligem\ Kilometerstand\ (zwischen\ 0\ und\ 1000).\n
-numComments=9
+comment9.params=array
+comment9.target=int\ last(java.lang.Object[])
+numComments=10

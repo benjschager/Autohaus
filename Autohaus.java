@@ -154,11 +154,11 @@ public class Autohaus extends AutohausUtils {
         Integer[] found = new Integer[parkplatz.length];
         int n = 0;
         for (int i = 0; i < findeLetztes(); i++) {
-            if (parkplatz[i].getMarke() == modell) {
-                System.out.println();
-                System.out.println("Ein Fahrzeug mit dem Modell '" + modell + "' befindet sich auf Platz " + i +".");
-                System.out.println("Dies ist es:");
-                parkplatz[i].anzeigen();
+            if (parkplatz[i].getMarke().equalsIgnoreCase(modell)) {
+                // System.out.println();
+                // System.out.println("Ein Fahrzeug mit dem Modell '" + modell + "' befindet sich auf Platz " + i +".");
+                // System.out.println("Dies ist es:");
+                // parkplatz[i].anzeigen();
                 found[n] = i;
                 n++;
             }
@@ -170,11 +170,11 @@ public class Autohaus extends AutohausUtils {
         Integer[] found = new Integer[parkplatz.length];
         int n = 0;
         for (int i = 0; i < findeLetztes(); i++) {
-            if (parkplatz[i].getFarbe() == farbe) {
-                System.out.println();
-                System.out.println("Ein Fahrzeug mit der Farbe '" + farbe + "' befindet sich auf Platz " + i +".");
-                System.out.println("Dies ist es:");
-                parkplatz[i].anzeigen();
+            if (parkplatz[i].getFarbe().equalsIgnoreCase(farbe)) {
+                //System.out.println();
+                // System.out.println("Ein Fahrzeug mit der Farbe '" + farbe + "' befindet sich auf Platz " + i +".");
+                // System.out.println("Dies ist es:");
+                // parkplatz[i].anzeigen();
                 found[n] = (Integer)i;
                 n++;
             }
@@ -186,11 +186,11 @@ public class Autohaus extends AutohausUtils {
         Integer[] found = new Integer[parkplatz.length];
         int n = 0;
         for (int i = 0; i < findeLetztes(); i++) {
-            if (parkplatz[i].getTyp() == typ) {
-                System.out.println();
-                System.out.println("Ein Fahrzeug mit des Typs '" + typ + "' befindet sich auf Platz " + i +".");
-                System.out.println("Dies ist es:");
-                parkplatz[i].anzeigen();
+            if (parkplatz[i].getTyp().equalsIgnoreCase(typ)) {
+                // System.out.println();
+                // System.out.println("Ein Fahrzeug mit des Typs '" + typ + "' befindet sich auf Platz " + i +".");
+                // System.out.println("Dies ist es:");
+                // parkplatz[i].anzeigen();
                 found[n] = (Integer)i;
                 n++;
             }
@@ -217,7 +217,7 @@ public class Autohaus extends AutohausUtils {
                 "Lamborghini", "Volvo", "Škoda", "SEAT", "Tesla", "Stellantis", "NCAP"};
 
         for (int i = 0; i < validBrands.length; i++) {
-            if (input == validBrands[i]) {
+            if (input.equalsIgnoreCase(validBrands[i])) {
                 findeAutosModell(input);
                 n++;
             }
@@ -227,7 +227,7 @@ public class Autohaus extends AutohausUtils {
                 "Lila", "Braun", "Violett", "Petrol", "Lavendel", "Bordeaux", "Pink-Schwarz kariert"};
 
         for (int i = 0; i < validColors.length; i++) {
-            if (input == validColors[i]) {
+            if (input.equalsIgnoreCase(validColors[i])) {
                 findeAutosFarbe(input);
                 n++;
             }
@@ -236,7 +236,7 @@ public class Autohaus extends AutohausUtils {
         String[] validTyps = { "Wohnmobil", "Flugzeug", "LKW", "Auto", "Bus" };
 
         for (int i = 0; i < validTyps.length; i++) {
-            if (input == validTyps[i]) {
+            if (input.equalsIgnoreCase(validTyps[i])) {
                 findeAutosTyp(input);
                 n++;
             }
@@ -256,7 +256,7 @@ public class Autohaus extends AutohausUtils {
                 "Lamborghini", "Volvo", "Škoda", "SEAT", "Tesla", "Stellantis", "NCAP"};
 
         for (int i = 0; i < validBrands.length; i++) {
-            if (input == validBrands[i]) {
+            if (input.equalsIgnoreCase(validBrands[i])) {
                 return findeAutosModell(input);
             }
         }
@@ -265,7 +265,7 @@ public class Autohaus extends AutohausUtils {
                 "Lila", "Braun", "Violett", "Petrol", "Lavendel", "Bordeaux", "Pink-Schwarz kariert"};
 
         for (int i = 0; i < validColors.length; i++) {
-            if (input == validColors[i]) {
+            if (input.equalsIgnoreCase(validColors[i])) {
                 return findeAutosFarbe(input);
             }
         }
@@ -273,13 +273,13 @@ public class Autohaus extends AutohausUtils {
         String[] validTyps = { "Wohnmobil", "Flugzeug", "LKW", "Auto", "Bus" };
 
         for (int i = 0; i < validTyps.length; i++) {
-            if (input.toLowerCase() == validTyps[i].toLowerCase()) {
+            if (input.equalsIgnoreCase(validTyps[i])) {
                 return findeAutosTyp(input);
             }
         }
         
         return null;
-    }
+    } 
 
     /**
      * Gibt die Autos auf dem Parkplatz zurück deren Preis n ∈ (von;bis) 

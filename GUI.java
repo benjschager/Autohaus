@@ -26,6 +26,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
 
     private JTextField tSearch;
     private JButton bSearch;
+    private JButton bReset;
 
     private JPanel infoBox;
     private JLabel lTyp;
@@ -255,8 +256,14 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
             bSearch.setBounds(210, 616, 110, 40);
             bSearch.addActionListener(this);
             add(bSearch);
+
+            bReset = new JButton("reset");
+            bReset.setBounds(335, 616, 110, 40);
+            bReset.addActionListener(this);
+            add(bReset);
             // ==========================================================
-        }
+        } 
+
         setVisible(true);
     }
 
@@ -304,15 +311,26 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
             autohaus.sort();
         }
 
+        System.out.println(String.valueOf(beingSearched));
         // Wenn dieser Knopf gedruck wird, wird nach dem Text von dem Feld links gesucht
-        if (ae.getSource() == bSearch) {
-            String info = tSearch.getText();
-            autohaus.suche(info);
+        if (ae.getSource() == bSearch | beingSearched) {
+            recolorAll();
             Integer[] found = autohaus.suche(tSearch.getText(), 'a');
+            System.out.println("test1");
             highligth(found);
-            if (popupEnabled) {
-                popupWindow("Success", new Dimension(300, 80), found.length + " viele Fahrzeuge gefunden");
+            System.out.println("test2");
+            beingSearched = true;
+            System.out.println(String.valueOf(beingSearched));
+            if (popupEnabled && ae.getSource() == bSearch) {
+                popupWindow("Success", new Dimension(300, 80), autohaus.last(found) + 1 + " Fahrzeuge gefunden");
             }
+        } else {
+            recolorAll();
+        }
+
+        if (ae.getSource() == bReset) {
+            beingSearched = false;
+            recolorAll();
         }
 
         // Wenn dieses Menu aufgerufen wird, muss eventuell die Anzahl an input-Feldern
@@ -561,16 +579,14 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
             }
         }
 
-        if (beingSearched) {recolorAll();}
-        else {
-            for (int i = 0; i < parkplatzButtons.length; i++) {
-                if (autohaus.isAuto(i) && parkplatzButtons[i].getBackground() != Color.CYAN) {
-                    parkplatzButtons[i].setBackground(Color.green);
-                } else {
-                    parkplatzButtons[i].setBackground(Color.red);
-                }
+        /* 
+        for (int i = 0; i < parkplatzButtons.length; i++) {
+            if (autohaus.isAuto(i) && parkplatzButtons[i].getBackground() != Color.MAGENTA) {
+                parkplatzButtons[i].setBackground(Color.green);
+            } else if (parkplatzButtons[i].getBackground() != Color.MAGENTA) {
+                parkplatzButtons[i].setBackground(Color.red);
             }
-        }
+        }*/
 
         sCreate.setMaximum(autohaus.getParkplatzLength() - autohaus.findeLetztes());
         infoBox.setVisible(false);
@@ -734,7 +750,9 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
     // highlights the spots that are being passed to it
     private void highligth(Integer[] input) {
         for (int i = 0; i < input.length; i++) {
-            parkplatzButtons[input[i]].setBackground(Color.CYAN);
+            if (input[i] != null) {
+                parkplatzButtons[input[i]].setBackground(Color.MAGENTA);
+            }
         }
     }
 }
