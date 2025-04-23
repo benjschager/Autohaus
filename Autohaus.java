@@ -273,7 +273,7 @@ public class Autohaus extends AutohausUtils {
         String[] validTyps = { "Wohnmobil", "Flugzeug", "LKW", "Auto", "Bus" };
 
         for (int i = 0; i < validTyps.length; i++) {
-            if (input == validTyps[i]) {
+            if (input.toLowerCase() == validTyps[i].toLowerCase()) {
                 return findeAutosTyp(input);
             }
         }
