@@ -129,8 +129,8 @@ public class Autohaus extends AutohausUtils {
      */
     public void vieleAutos(int anzahl) {
         Fahrzeug[] buffer = super.utilsVieleAutos(anzahl);
-        for (int i = findeLetztes(); i < Math.min(parkplatz.length, buffer.length); i ++) {
-            parkplatz[i] = buffer[i];
+        for (int i = 0; i < buffer.length; i++) {
+            parken(buffer[i]);
         }
         sort();
     }
@@ -150,37 +150,52 @@ public class Autohaus extends AutohausUtils {
         }
     }
 
-    private void findeAutosModell(String modell) {
+    private Integer[] findeAutosModell(String modell) {
+        Integer[] found = new Integer[parkplatz.length];
+        int n = 0;
         for (int i = 0; i < findeLetztes(); i++) {
             if (parkplatz[i].getMarke() == modell) {
                 System.out.println();
                 System.out.println("Ein Fahrzeug mit dem Modell '" + modell + "' befindet sich auf Platz " + i +".");
                 System.out.println("Dies ist es:");
                 parkplatz[i].anzeigen();
+                found[n] = i;
+                n++;
             }
         }
+        return found;
     }
 
-    private void findeAutosFarbe(String farbe) {
+    private Integer[] findeAutosFarbe(String farbe) {
+        Integer[] found = new Integer[parkplatz.length];
+        int n = 0;
         for (int i = 0; i < findeLetztes(); i++) {
             if (parkplatz[i].getFarbe() == farbe) {
                 System.out.println();
                 System.out.println("Ein Fahrzeug mit der Farbe '" + farbe + "' befindet sich auf Platz " + i +".");
                 System.out.println("Dies ist es:");
                 parkplatz[i].anzeigen();
+                found[n] = (Integer)i;
+                n++;
             }
         }
+        return found;
     }
 
-    private void findeAutosTyp(String typ) {
+    private Integer[] findeAutosTyp(String typ) {
+        Integer[] found = new Integer[parkplatz.length];
+        int n = 0;
         for (int i = 0; i < findeLetztes(); i++) {
             if (parkplatz[i].getTyp() == typ) {
                 System.out.println();
                 System.out.println("Ein Fahrzeug mit des Typs '" + typ + "' befindet sich auf Platz " + i +".");
                 System.out.println("Dies ist es:");
                 parkplatz[i].anzeigen();
+                found[n] = (Integer)i;
+                n++;
             }
         }
+        return found;
     }
 
     public void suche(Class pClass) {
@@ -232,6 +247,38 @@ public class Autohaus extends AutohausUtils {
         } else {
             System.out.println("Es wurden " + n + " Fahrzeuge mit diesen Attributen gefunden"); 
         }
+    }
+
+    public Integer[] suche(String input, char a) {
+        String[] validBrands = { "Volkswagen", "BMW", "Mercedes-Benz", "Audi",
+                "Ford", "Peugeot", "Renault", "Citroën", "Hyundai", "Porsche",
+                "DS Automobiles", "Fiat", "Alfa Romeo", "Lancia", "Ferrari", "Opel",
+                "Lamborghini", "Volvo", "Škoda", "SEAT", "Tesla", "Stellantis", "NCAP"};
+
+        for (int i = 0; i < validBrands.length; i++) {
+            if (input == validBrands[i]) {
+                return findeAutosModell(input);
+            }
+        }
+
+        String[] validColors = { "Grün", "Gelb", "Blau", "Rot", "Silber", "Schwarz", "Grau", "Weiß",
+                "Lila", "Braun", "Violett", "Petrol", "Lavendel", "Bordeaux", "Pink-Schwarz kariert"};
+
+        for (int i = 0; i < validColors.length; i++) {
+            if (input == validColors[i]) {
+                return findeAutosFarbe(input);
+            }
+        }
+
+        String[] validTyps = { "Wohnmobil", "Flugzeug", "LKW", "Auto", "Bus" };
+
+        for (int i = 0; i < validTyps.length; i++) {
+            if (input == validTyps[i]) {
+                return findeAutosTyp(input);
+            }
+        }
+        
+        return null;
     }
 
     /**

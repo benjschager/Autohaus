@@ -20,7 +20,8 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
 
     private JCheckBox cToggle;
 
-    private JButton remove;
+    private JButton bRemove;
+    private JButton bSort;
 
     private JPanel infoBox;
     private JLabel lTyp;
@@ -60,6 +61,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
         screenSize = new Dimension(950, 650);
         setSize(screenSize);
         setLayout(null);
+        setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -104,7 +106,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
         // Die 'vieleAutos' Funktion
         {
         bCreate = new JButton("hinzufugen");
-        bCreate.setBounds(210, 560, 150, 40);
+        bCreate.setBounds(210, 560, 110, 40);
         bCreate.addActionListener(this);
         add(bCreate);
 
@@ -130,22 +132,26 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
         cToggle.setBounds(625, 583, 160, 15);
         cToggle.addActionListener(this);
         add(cToggle);
-        //JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        //topPanel.add(cToggle);
-        //setLayout(new BorderLayout());
-        //add(topPanel, BorderLayout.NORTH);
-        //setLayout(null);
         // ==========================================================
         }
         // ==========================================================
         // Auto entfernen
         {
-        remove = new JButton("entfernen");
-        remove.setBounds(380,560, 150, 40);
-        remove.addActionListener(this);
-        add(remove);
+        bRemove = new JButton("entfernen");
+        bRemove.setBounds(335, 560, 110, 40);
+        bRemove.addActionListener(this);
+        add(bRemove);
         // ==========================================================
         }
+        // ==========================================================
+		// Parkplatz sortieren
+		{
+		bSort = new JButton("sortieren");
+		bSort.setBounds(460, 560, 110, 40);
+		bSort.addActionListener(this);
+		add(bSort);
+        // ==========================================================
+		}
         // ==========================================================
         // Box with information about the selected vehicel
         {
@@ -269,12 +275,17 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
 
         // Wenn auf diesen Knopf gedruckt wird, soll das ausgewahlte Fahrzeug verkauft
         // werden.
-        if (ae.getSource() == remove) {
+        if (ae.getSource() == bRemove) {
             autohaus.verkaufen(selected);
             if (popupEnabled) {
                 popupWindow("Success", new Dimension(300,80),"1 Fahrzeug wurde entfernt");
             }
         }
+
+		// Wenn dieser Knopf gedruckt wird, soll der Parkplatz sortiert werden
+		if (ae.getSource() == bSort) {
+			autohaus.sort();
+		}
 
         // Wenn dieses Menu aufgerufen wird, muss eventuell die Anzahl an input-Feldern
         // veraendert werden.
@@ -410,7 +421,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
                         empty = true;
                     }
                 }
-                
+
                 boolean[] ausstattung = new boolean[wohnmobilBoxs.length];
                 for (int i = 0; i < ausstattung.length; i++) {
                     ausstattung[i] = wohnmobilBoxs[i].isSelected();
