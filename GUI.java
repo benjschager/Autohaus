@@ -8,6 +8,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
     private Dimension screenSize;
     private Autohaus autohaus; 
     private JButton[] parkplatzButtons;
+    private JScrollPane scrollPane;
 
     private int selected;
     private String createSelected;
@@ -97,8 +98,8 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
             }
             arrayPanel.setPreferredSize(new Dimension(380, 50*(int)Math.ceil(autohaus.getParkplatzLength()/8) + 50));
 
-            JScrollPane scrollPane = new JScrollPane(arrayPanel);
-            scrollPane.setBounds(buttonAreaX, buttonAreaY, buttonAreaWidth, buttonAreaHeight);
+            scrollPane = new JScrollPane(arrayPanel);
+            scrollPane.setBounds(10, 10, 585, 500);
 
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -121,7 +122,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
             add(lCreate);
 
             int initial = 0;
-            sCreate = new JSlider(initial, (int) autohaus.getParkplatzLength()-autohaus.findeLetztes()-1, 0);
+            sCreate = new JSlider(initial, (int) autohaus.getParkplatzLength()-autohaus.findeLetztes(), 0);
             sCreate.setBounds(55, 580, 150, 15);
             sCreate.addChangeListener(this);
             add(sCreate);
@@ -578,15 +579,6 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
                 infoBox.add(lDefault);
             }
         }
-
-        /* 
-        for (int i = 0; i < parkplatzButtons.length; i++) {
-            if (autohaus.isAuto(i) && parkplatzButtons[i].getBackground() != Color.MAGENTA) {
-                parkplatzButtons[i].setBackground(Color.green);
-            } else if (parkplatzButtons[i].getBackground() != Color.MAGENTA) {
-                parkplatzButtons[i].setBackground(Color.red);
-            }
-        }*/
 
         sCreate.setMaximum(autohaus.getParkplatzLength() - autohaus.findeLetztes());
         infoBox.setVisible(false);
